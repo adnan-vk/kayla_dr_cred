@@ -12,9 +12,11 @@ class DoctorController extends ChangeNotifier {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   DoctorService doctorservice = DoctorService();
+  List<DoctorModel> allDoctors = [];
   getAllDoctors() async {
     try {
-      await doctorservice.getAllDoctors();
+      allDoctors = await doctorservice.getAllDoctors();
+      log("message");
       notifyListeners();
       log("fetched all doctors");
     } catch (e) {
@@ -30,6 +32,16 @@ class DoctorController extends ChangeNotifier {
       log("error in adding data : $e");
     }
   }
+
+  // getDoctor() async {
+  //   try {
+  //     allDoctors = await doctorservice.getAllDoctors();
+  //     log("add doctors is : $allDoctors");
+  //     notifyListeners();
+  //   } catch (e) {
+  //     log("error in fetching data : $e");
+  //   }
+  // }
 
   clearControllers() {
     nameController.clear();

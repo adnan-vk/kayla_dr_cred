@@ -99,7 +99,7 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:kayla/controller/addoreditcontroller/addoreditcontroller.dart';
-import 'package:kayla/controller/doctorcontroller/doctrocontroller.dart';
+import 'package:kayla/controller/doctorcontroller/doctorcontroller.dart';
 import 'package:kayla/view/home_page/homewidget/homewidget.dart';
 import 'package:kayla/view/widgets/textfieldwidget/textfieldwidget.dart';
 import 'package:provider/provider.dart';

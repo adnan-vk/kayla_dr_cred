@@ -1,14 +1,12 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:kayla/model/doctormodel.dart';
 
 class DoctorService {
   String doctor = "doctor";
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  late CollectionReference<DoctorModel> doct;
-  Reference storage = FirebaseStorage.instance.ref();
+  // late CollectionReference<DoctorModel> collection;
+  // Reference storage = FirebaseStorage.instance.ref();
 
   // DoctorService() {
   //   doct = firestore.collection(doctor).withConverter<DoctorModel>(

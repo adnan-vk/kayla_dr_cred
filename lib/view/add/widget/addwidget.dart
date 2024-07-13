@@ -1,7 +1,7 @@
 import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:kayla/controller/addoreditcontroller/addoreditcontroller.dart';
-import 'package:kayla/controller/doctorcontroller/doctrocontroller.dart';
+import 'package:kayla/controller/doctorcontroller/doctorcontroller.dart';
 import 'package:kayla/view/home_page/homewidget/homewidget.dart';
 import 'package:kayla/view/widgets/textfieldwidget/textfieldwidget.dart';
 import 'package:provider/provider.dart';
@@ -36,9 +36,7 @@ class AddWidget {
     return Column(
       children: [
         textFormField().textformfield(
-            type: "name",
-            controller: provider.nameController,
-            labeltext: "Full Name"),
+            controller: provider.nameController, labeltext: "Full Name"),
         const SizedBox(
           height: 20,
         ),

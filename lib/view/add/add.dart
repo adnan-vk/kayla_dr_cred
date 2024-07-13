@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kayla/controller/doctorcontroller/doctrocontroller.dart';
+import 'package:kayla/controller/doctorcontroller/doctorcontroller.dart';
 import 'package:kayla/model/doctormodel.dart';
 import 'package:kayla/view/add/widget/addwidget.dart';
 import 'package:kayla/view/widgets/textfieldwidget/textfieldwidget.dart';
