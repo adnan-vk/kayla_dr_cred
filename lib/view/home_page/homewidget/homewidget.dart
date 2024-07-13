@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kayla/controller/homecontroller/homecontroller.dart';
-import 'package:kayla/view/addoredit/addoredit.dart';
+import 'package:kayla/view/add/add.dart';
 import 'package:kayla/view/widgets/buttonwidget/buttonwidget.dart';
 import 'package:kayla/view/widgets/textwidget/textwidget.dart';
 import 'package:provider/provider.dart';

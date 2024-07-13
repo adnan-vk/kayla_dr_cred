@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kayla/view/addoredit/addoredit.dart';
+import 'package:kayla/view/add/add.dart';
 import 'package:kayla/view/home_page/homewidget/homewidget.dart';
 
 class HomePage extends StatelessWidget {

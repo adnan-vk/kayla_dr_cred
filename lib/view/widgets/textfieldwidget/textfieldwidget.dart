@@ -3,39 +3,30 @@
 import 'package:flutter/material.dart';
 
 class textFormField {
-  textformfield(
-      {controller,
-      cnfcontroller,
-      labeltext,
-      onchange,
-      validator,
-      String? type,
-      keytype,
-      max,
-      minline,
-      color,
-      maxline,
-      icon,
-      bool obsc = false}) {
-    // TextEditingController cnfcontroller = TextEditingController();
+  textformfield({
+    controller,
+    labeltext,
+    onchange,
+    String? type,
+    keytype,
+    max,
+    color,
+  }) {
     return TextFormField(
-      // validator: (value) {
-      //   if (value == null || value.isEmpty) {
-      //     return "Please enter $hinttext";
-      //   } else if (type == 'phone') {
-      //     if (value.length != 10) {
-      //       return "Please Enter Valid Phone Number";
-      //     }
-      //   } else if (type == "firstName") {
-      //     if (value.isEmpty) {
-      //       return "please enter a name";
-      //     }
-      //   }
-      //   return null;
-      // },
-      obscureText: obsc,
-      maxLines: maxline,
-      minLines: minline,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Please enter $labeltext";
+        } else if (type == 'name') {
+          if (value.length != 10) {
+            return "Please Enter Valid Phone Number";
+          }
+        } else if (type == "firstName") {
+          if (value.isEmpty) {
+            return "please enter a name";
+          }
+        }
+        return null;
+      },
       maxLength: max,
       keyboardType: keytype,
       controller: controller,
@@ -45,7 +36,6 @@ class textFormField {
         labelStyle: const TextStyle(color: Colors.black),
         filled: true,
         fillColor: Colors.grey.withOpacity(.15),
-        prefixIcon: icon,
       ),
       onChanged: (value) {
         onchange;
