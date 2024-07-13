@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:kayla/view/addoredit/widget/addoreditwidget.dart';
-import 'package:kayla/view/widgets/textfieldwidget.dart';
-import 'package:kayla/view/widgets/textwidget.dart';
+import 'package:kayla/view/widgets/textfieldwidget/textfieldwidget.dart';
+import 'package:kayla/view/widgets/textwidget/textwidget.dart';
 
 class AddorEdit extends StatelessWidget {
-  AddorEdit({super.key});
-
+  AddorEdit({super.key, this.value});
+  final value;
   final textwidget = TextWidget();
   final textfield = textFormField();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AddorEditWidget().topBar(context),
+      appBar: value == "edit"
+          ? AddorEditWidget().editTopBar(context)
+          : AddorEditWidget().addtopBar(context),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(

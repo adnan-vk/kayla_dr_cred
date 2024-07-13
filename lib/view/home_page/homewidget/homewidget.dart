@@ -1,40 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:kayla/view/widgets/textwidget.dart';
+import 'package:kayla/controller/homecontroller/homecontroller.dart';
+import 'package:kayla/view/addoredit/addoredit.dart';
+import 'package:kayla/view/widgets/buttonwidget/buttonwidget.dart';
+import 'package:kayla/view/widgets/textwidget/textwidget.dart';
+import 'package:provider/provider.dart';
 
 TextWidget textwidget = TextWidget();
 
 class HomeWidget {
-  List<DropdownMenuItem<String>> districtItems = [
-    DropdownMenuItem(
-        value: 'Alappuzha', child: textwidget.text(data: 'Alappuzha')),
-    DropdownMenuItem(
-        value: 'Ernakulam', child: textwidget.text(data: 'Ernakulam')),
-    DropdownMenuItem(value: 'Idukki', child: textwidget.text(data: 'Idukki')),
-    DropdownMenuItem(value: 'Kannur', child: textwidget.text(data: 'Kannur')),
-    DropdownMenuItem(
-        value: 'Kasaragod', child: textwidget.text(data: 'Kasaragod')),
-    DropdownMenuItem(value: 'Kollam', child: textwidget.text(data: 'Kollam')),
-    DropdownMenuItem(
-        value: 'Kottayam', child: textwidget.text(data: 'Kottayam')),
-    DropdownMenuItem(
-        value: 'Kozhikode', child: textwidget.text(data: 'Kozhikode')),
-    DropdownMenuItem(
-        value: 'Malappuram', child: textwidget.text(data: 'Malappuram')),
-    DropdownMenuItem(
-        value: 'Palakkad', child: textwidget.text(data: 'Palakkad')),
-    DropdownMenuItem(
-        value: 'Pathanamthitta',
-        child: textwidget.text(data: 'Pathanamthitta')),
-    DropdownMenuItem(
-        value: 'Thiruvananthapuram',
-        child: textwidget.text(
-          data: 'Trivandrum',
-        )),
-    DropdownMenuItem(
-        value: 'Thrissur', child: textwidget.text(data: 'Thrissur')),
-    DropdownMenuItem(value: 'Wayanad', child: textwidget.text(data: 'Wayanad')),
-  ];
   topBar(context) {
+    final pro = Provider.of<HomeController>(context, listen: false);
     final size = MediaQuery.of(context).size;
     return AppBar(
       title: textwidget.text(data: "Doctors"),
@@ -46,16 +21,7 @@ class HomeWidget {
               height: 0,
             ),
             hint: textwidget.text(data: "Gender"),
-            items: [
-              DropdownMenuItem(
-                value: 'male',
-                child: textwidget.text(data: "Male"),
-              ),
-              DropdownMenuItem(
-                value: 'female',
-                child: textwidget.text(data: "Female"),
-              ),
-            ],
+            items: pro.gender,
             onChanged: (value) {},
           ),
         ),
@@ -67,7 +33,7 @@ class HomeWidget {
             ),
             isExpanded: true,
             hint: textwidget.text(data: "District"),
-            items: districtItems,
+            items: pro.districtItems,
             onChanged: (value) {},
           ),
         )
@@ -117,21 +83,15 @@ class HomeWidget {
               ],
             ),
             SizedBox(
-              width: size.width * .23,
-              height: size.height * .03,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: const WidgetStatePropertyAll(
-                      Color(0xFF019744),
-                    ),
-                    shape: WidgetStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    )),
-                onPressed: () {},
-                child: textwidget.text(
-                    data: "Edit Profile", size: 6.0, color: Colors.white),
+              width: 100,
+              height: 25,
+              child: ButtonWidget().elevatedbutton(
+                text: "Edit Profile",
+                color: const Color(0xFF019744),
+                context: context,
+                page: AddorEdit(
+                  value: "edit",
+                ),
               ),
             ),
           ],

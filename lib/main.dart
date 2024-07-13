@@ -1,10 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:kayla/controller/addoreditcontroller/addoreditcontroller.dart';
 import 'package:kayla/controller/bottomcontroller/bottomcontroller.dart';
+import 'package:kayla/controller/homecontroller/homecontroller.dart';
+import 'package:kayla/firebase_options.dart';
 import 'package:kayla/view/bottombar/bottombar.dart';
 import 'package:provider/provider.dart';
 
-void main(List<String> args) {
+void main(List<String> args) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -20,6 +25,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => AddorEditController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => HomeController(),
         ),
       ],
       child: MaterialApp(
