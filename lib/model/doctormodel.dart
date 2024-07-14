@@ -5,9 +5,16 @@ class DoctorModel {
   String? email;
   String? phone;
   String? gender;
+  String? imageUrl;
 
   DoctorModel(
-      {this.id, this.district, this.email, this.gender, this.name, this.phone});
+      {this.id,
+      this.district,
+      this.email,
+      this.gender,
+      this.name,
+      this.phone,
+      this.imageUrl});
 
   factory DoctorModel.fromjson(json) {
     return DoctorModel(
@@ -17,6 +24,7 @@ class DoctorModel {
       gender: json['gender'],
       name: json["name"],
       phone: json["phone"],
+      imageUrl: json["imageurl"],
     );
   }
 
@@ -27,7 +35,8 @@ class DoctorModel {
       "email": email,
       "gender": gender,
       "name": name,
-      "phone": phone
+      "phone": phone,
+      "imageurl": imageUrl,
     };
   }
 }

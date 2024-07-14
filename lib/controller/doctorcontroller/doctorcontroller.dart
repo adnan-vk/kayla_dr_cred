@@ -1,11 +1,17 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kayla/model/doctormodel.dart';
 import 'package:kayla/service/doctorservice.dart';
 
 class DoctorController extends ChangeNotifier {
+  String? imageUrl = "";
+  final ImagePicker imagePicker = ImagePicker();
+  File? selectedimage;
+  bool isloading = false;
   String? genderselect;
   String? districtselect;
   String? district;
@@ -77,5 +83,41 @@ class DoctorController extends ChangeNotifier {
     } catch (e) {
       log("error in edit :: $e");
     }
+  }
+
+  deleteDoctor(doctorid) async {
+    try {
+      await doctorservice.deleteDoctor(doctorid);
+      getAllDoctors();
+    } catch (e) {
+      log("ntot deleted $e");
+    }
+  }
+
+  Future<void> pickImage() async {
+    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      selectedimage = File(pickedFile.path);
+      notifyListeners();
+    }
+  }
+
+  Future<void> uploadImage() async {
+    if (selectedimage == null) return;
+
+    isloading = true;
+    notifyListeners();
+
+    String? url = await doctorservice.uploadImage(selectedimage!);
+
+    if (url != null) {
+      imageUrl = url;
+      log("Image uploaded successfully, URL: $imageUrl");
+    } else {
+      log("Image upload failed.");
+    }
+
+    isloading = false;
+    notifyListeners();
   }
 }

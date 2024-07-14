@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:kayla/controller/addoreditcontroller/addoreditcontroller.dart';
 import 'package:kayla/controller/doctorcontroller/doctorcontroller.dart';
@@ -25,6 +24,7 @@ class _EditState extends State<Edit> {
   TextEditingController phoneController = TextEditingController();
   String? district;
   String? gender;
+  String? image;
   final textwidget = TextWidget();
   final formkey = GlobalKey<FormState>();
 
@@ -33,18 +33,17 @@ class _EditState extends State<Edit> {
     nameController = TextEditingController(text: widget.doctor.name);
     emailController = TextEditingController(text: widget.doctor.email);
     phoneController = TextEditingController(text: widget.doctor.phone);
-    log(" widget name : ${widget.doctor.name}");
-    log(" widget email : ${widget.doctor.email}");
-    log(" widget phone : ${widget.doctor.phone}");
+    district = widget.doctor.district;
+    gender = widget.doctor.gender;
+    image = widget.doctor.imageUrl;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<DoctorController>(context, listen: false);
     final pro = Provider.of<AddorEditController>(context, listen: false);
     return Scaffold(
-      appBar: EditWidget().topBar(context),
+      appBar: EditWidget().topBar(context, widget.doctor.id),
       body: Form(
         key: formkey,
         child: Padding(
@@ -53,9 +52,19 @@ class _EditState extends State<Edit> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Center(
-                  child: CircleAvatar(
-                    radius: 80,
+                Center(
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: CircleAvatar(
+                      radius: 80,
+                      backgroundImage: NetworkImage("$image"),
+                      child: image == null
+                          ? Icon(
+                              EneftyIcons.people_outline,
+                              size: 40,
+                            )
+                          : null,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -73,8 +82,9 @@ class _EditState extends State<Edit> {
                     DropdownButtonFormField(
                       hint: textwidget.text(data: "District"),
                       items: pro.districtItems,
+                      value: district,
                       onChanged: (value) {
-                        provider.district = value.toString();
+                        district = value.toString();
                       },
                       decoration: InputDecoration(
                         labelText: 'District',
@@ -101,6 +111,7 @@ class _EditState extends State<Edit> {
                       height: 20,
                     ),
                     DropdownButtonFormField(
+                      value: gender,
                       hint: textwidget.text(data: "Gender"),
                       items: [
                         DropdownMenuItem(
@@ -113,7 +124,7 @@ class _EditState extends State<Edit> {
                         ),
                       ],
                       onChanged: (value) {
-                        provider.gender = value.toString();
+                        gender = value.toString();
                       },
                       decoration: InputDecoration(
                         labelText: 'Gender',
@@ -125,7 +136,6 @@ class _EditState extends State<Edit> {
                     ),
                   ],
                 ),
-                // AddWidget().textFields(context),
                 const SizedBox(
                   height: 20,
                 ),
@@ -159,6 +169,8 @@ class _EditState extends State<Edit> {
     data.name = nameController.text;
     data.email = emailController.text;
     data.phone = phoneController.text;
+    data.district = district;
+    data.gender = gender;
     await getProvider.editDoctor(data.id, data);
     Navigator.pop(context);
     SnackBarWidget()

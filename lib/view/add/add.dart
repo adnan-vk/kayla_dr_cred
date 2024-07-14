@@ -1,13 +1,16 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:kayla/controller/doctorcontroller/doctorcontroller.dart';
 import 'package:kayla/model/doctormodel.dart';
 import 'package:kayla/view/add/widget/addwidget.dart';
+import 'package:kayla/view/widgets/snackbarwidget/snack_bar_widgets.dart';
 import 'package:kayla/view/widgets/textfieldwidget/textfieldwidget.dart';
 import 'package:kayla/view/widgets/textwidget/textwidget.dart';
 import 'package:provider/provider.dart';
 
 class Add extends StatelessWidget {
-  Add({super.key});
+  DoctorModel? doctor;
+  Add({super.key, this.doctor});
   final textwidget = TextWidget();
   final textfield = textFormField();
 
@@ -15,6 +18,7 @@ class Add extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pro = Provider.of<DoctorController>(context, listen: false);
     return Scaffold(
       appBar: AddWidget().addtopBar(context),
       body: Form(
@@ -25,9 +29,19 @@ class Add extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Center(
-                  child: CircleAvatar(
-                    radius: 80,
+                Center(
+                  child: Consumer<DoctorController>(
+                    builder: (context, value, child) => GestureDetector(
+                      onTap: () {
+                        pro.pickImage();
+                      },
+                      child: CircleAvatar(
+                        backgroundImage: value.selectedimage != null
+                            ? Image.file(value.selectedimage!).image
+                            : null,
+                        radius: 80,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -64,16 +78,23 @@ class Add extends StatelessWidget {
     );
   }
 
-  addData(context) {
+  addData(context) async {
     final pro = Provider.of<DoctorController>(context, listen: false);
     final data = DoctorModel(
-        id: DateTime.now().toString(),
-        email: pro.emailController.text,
-        name: pro.nameController.text,
-        district: pro.district,
-        gender: pro.gender,
-        phone: pro.phoneController.text);
-    pro.addDoctor(data);
+      id: DateTime.now().toString(),
+      email: pro.emailController.text,
+      name: pro.nameController.text,
+      district: pro.district,
+      gender: pro.gender,
+      phone: pro.phoneController.text,
+      imageUrl: pro.imageUrl,
+    );
+    log("image url is : ${pro.imageUrl}");
+    await pro.addDoctor(data);
+    await pro.uploadImage();
+    SnackBarWidget()
+        .iconSnackSuccess(context, label: "Doctor added Successfully");
+    Navigator.pop(context);
     pro.clearControllers();
   }
 }

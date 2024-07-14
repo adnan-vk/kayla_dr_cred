@@ -68,6 +68,9 @@ class HomeWidget {
                   height: size.height * .12,
                   width: size.width * .20,
                   decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(doctor.imageUrl!),
+                    ),
                     border:
                         Border.all(color: const Color(0xFF019744), width: 2),
                     borderRadius: const BorderRadius.all(
