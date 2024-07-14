@@ -27,7 +27,7 @@ class DoctorModel {
       "email": email,
       "gender": gender,
       "name": name,
-      "price": phone
+      "phone": phone
     };
   }
 }

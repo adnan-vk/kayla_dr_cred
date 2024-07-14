@@ -18,15 +18,6 @@ class AddWidget {
       ),
       centerTitle: true,
       title: textwidget.text(data: "Add Doctor", weight: FontWeight.w600),
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.delete,
-            color: Colors.red,
-          ),
-        )
-      ],
     );
   }
 

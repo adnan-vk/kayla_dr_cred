@@ -6,9 +6,8 @@ import 'package:kayla/view/widgets/textfieldwidget/textfieldwidget.dart';
 import 'package:kayla/view/widgets/textwidget/textwidget.dart';
 import 'package:provider/provider.dart';
 
-class AddorEdit extends StatelessWidget {
-  AddorEdit({super.key, this.value});
-  final value;
+class Add extends StatelessWidget {
+  Add({super.key});
   final textwidget = TextWidget();
   final textfield = textFormField();
 

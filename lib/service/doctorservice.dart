@@ -5,22 +5,6 @@ import 'package:kayla/model/doctormodel.dart';
 class DoctorService {
   String doctor = "doctor";
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  // late CollectionReference<DoctorModel> collection;
-  // Reference storage = FirebaseStorage.instance.ref();
-
-  // DoctorService() {
-  //   doct = firestore.collection(doctor).withConverter<DoctorModel>(
-  //     fromFirestore: (snapshot, options) {
-  //       return DoctorModel.fromjson(
-  //         snapshot.id,
-  //         snapshot.data()!,
-  //       );
-  //     },
-  //     toFirestore: (value, options) {
-  //       return value.tojson();
-  //     },
-  //   );
-  // }
 
   Future<List<DoctorModel>> getAllDoctors() async {
     final snapshot = await firestore.collection(doctor).get();
@@ -41,6 +25,14 @@ class DoctorService {
       log("Doctor added");
     } catch (e) {
       log("error in adding item : $e");
+    }
+  }
+
+  editDoctor(doctorid, DoctorModel data) async {
+    try {
+      await firestore.collection(doctor).doc(doctorid).update(data.tojson());
+    } catch (e) {
+      log("error in edit data : $e");
     }
   }
 }

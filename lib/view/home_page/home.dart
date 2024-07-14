@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
       appBar: HomeWidget().topBar(context),
       body: Consumer<DoctorController>(
         builder: (context, value, child) => ListView.builder(
-          itemCount: value.allDoctors.length,
+          itemCount: value.filteredDoctor.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.all(7),
@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddorEdit(),
+              builder: (context) => Add(),
             ),
           );
         },

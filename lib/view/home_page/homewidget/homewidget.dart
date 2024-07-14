@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kayla/controller/doctorcontroller/doctorcontroller.dart';
 import 'package:kayla/controller/homecontroller/homecontroller.dart';
-import 'package:kayla/view/add/add.dart';
+import 'package:kayla/view/editpage/edit.dart';
 import 'package:kayla/view/widgets/buttonwidget/buttonwidget.dart';
 import 'package:kayla/view/widgets/textwidget/textwidget.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +11,7 @@ TextWidget textwidget = TextWidget();
 class HomeWidget {
   topBar(context) {
     final pro = Provider.of<HomeController>(context, listen: false);
+    final provider = Provider.of<DoctorController>(context, listen: false);
     final size = MediaQuery.of(context).size;
     return AppBar(
       title: textwidget.text(data: "Doctors"),
@@ -22,8 +23,11 @@ class HomeWidget {
               height: 0,
             ),
             hint: textwidget.text(data: "Gender"),
+            value: provider.genderselect,
             items: pro.gender,
-            onChanged: (value) {},
+            onChanged: (value) {
+              provider.setSelectedGender(value);
+            },
           ),
         ),
         SizedBox(
@@ -33,9 +37,12 @@ class HomeWidget {
               height: 0,
             ),
             isExpanded: true,
+            value: provider.districtselect,
             hint: textwidget.text(data: "District"),
             items: pro.districtItems,
-            onChanged: (value) {},
+            onChanged: (value) {
+              provider.setSelectedDistrict(value);
+            },
           ),
         )
       ],
@@ -44,9 +51,13 @@ class HomeWidget {
 
   doctorCard(context, index) {
     final size = MediaQuery.of(context).size;
-    return Consumer<DoctorController>(
-      builder: (context, value, child) {
-        final doctor = value.allDoctors[index];
+    return Consumer<DoctorController>(builder: (context, value, child) {
+      if (value.filteredDoctor.isEmpty) {
+        return const Center(
+          child: Text("data"),
+        );
+      } else {
+        final doctor = value.filteredDoctor[index];
         return Card(
           elevation: 3,
           child: Padding(
@@ -76,12 +87,12 @@ class HomeWidget {
                       child: textwidget.text(data: doctor.name, size: 13.0),
                     ),
                     textwidget.text(
-                      data: "BAMS, Resident Medical Officer",
+                      data: doctor.email,
                       size: 7.0,
                       color: Colors.grey,
                     ),
                     textwidget.text(
-                      data: "Eranankulam",
+                      data: doctor.district,
                       size: 7.0,
                       color: Colors.grey,
                     ),
@@ -94,8 +105,8 @@ class HomeWidget {
                     text: "Edit Profile",
                     color: const Color(0xFF019744),
                     context: context,
-                    page: AddorEdit(
-                      value: "edit",
+                    page: Edit(
+                      doctor: doctor,
                     ),
                   ),
                 ),
@@ -103,7 +114,7 @@ class HomeWidget {
             ),
           ),
         );
-      },
-    );
+      }
+    });
   }
 }
