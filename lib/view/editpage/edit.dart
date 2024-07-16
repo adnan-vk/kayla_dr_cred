@@ -59,7 +59,7 @@ class _EditState extends State<Edit> {
                       radius: 80,
                       backgroundImage: NetworkImage("$image"),
                       child: image == null
-                          ? Icon(
+                          ? const Icon(
                               EneftyIcons.people_outline,
                               size: 40,
                             )

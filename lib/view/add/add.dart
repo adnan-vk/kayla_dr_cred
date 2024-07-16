@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:kayla/controller/doctorcontroller/doctorcontroller.dart';
 import 'package:kayla/model/doctormodel.dart';
 import 'package:kayla/view/add/widget/addwidget.dart';
@@ -8,6 +10,7 @@ import 'package:kayla/view/widgets/textfieldwidget/textfieldwidget.dart';
 import 'package:kayla/view/widgets/textwidget/textwidget.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class Add extends StatelessWidget {
   DoctorModel? doctor;
   Add({super.key, this.doctor});
@@ -33,12 +36,12 @@ class Add extends StatelessWidget {
                   child: Consumer<DoctorController>(
                     builder: (context, value, child) => GestureDetector(
                       onTap: () {
-                        pro.pickImage();
+                        pro.pickAndCropImage();
                       },
                       child: CircleAvatar(
-                        backgroundImage: value.selectedimage != null
-                            ? Image.file(value.selectedimage!).image
-                            : null,
+                        backgroundImage: value.croppedFile == null
+                            ? null
+                            : Image.file(File(value.path!)).image,
                         radius: 80,
                       ),
                     ),
@@ -90,6 +93,10 @@ class Add extends StatelessWidget {
       imageUrl: pro.imageUrl,
     );
     log("image url is : ${pro.imageUrl}");
+    if (pro.croppedFile == null) {
+      return SnackBarWidget()
+          .iconSnackAlert(context, label: "image is rewuired");
+    }
     await pro.addDoctor(data);
     await pro.uploadImage();
     SnackBarWidget()
@@ -97,4 +104,40 @@ class Add extends StatelessWidget {
     Navigator.pop(context);
     pro.clearControllers();
   }
+
+  // Future<void> pickAndCropImage() async {
+  //   final ImagePicker _picker = ImagePicker();
+  //   final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+  //   if (image != null) {
+  //     final CroppedFile? croppedFile = await ImageCropper().cropImage(
+  //       sourcePath: image.path,
+  //       uiSettings: [
+  //         AndroidUiSettings(
+  //           toolbarTitle: 'Cropper',
+  //           toolbarColor: Colors.deepOrange,
+  //           toolbarWidgetColor: Colors.white,
+  //           aspectRatioPresets: [
+  //             CropAspectRatioPreset.original,
+  //             CropAspectRatioPreset.square,
+  //             CropAspectRatioPresetCustom(),
+  //           ],
+  //         ),
+  //       ],
+  //     );
+
+  //     if (croppedFile != null) {
+  //       // Use the cropped file as needed
+  //       log('Cropped file path: ${croppedFile.path}');
+  //     }
+  //   }
+  // }
+}
+
+class CropAspectRatioPresetCustom implements CropAspectRatioPresetData {
+  @override
+  (int, int)? get data => (2, 3);
+
+  @override
+  String get name => '2x3 (customized)';
 }

@@ -2,12 +2,15 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kayla/model/doctormodel.dart';
 import 'package:kayla/service/doctorservice.dart';
+import 'package:kayla/view/add/add.dart';
 
 class DoctorController extends ChangeNotifier {
+  CroppedFile? croppedFile;
+  var path;
   String? imageUrl = "";
   final ImagePicker imagePicker = ImagePicker();
   File? selectedimage;
@@ -103,12 +106,12 @@ class DoctorController extends ChangeNotifier {
   }
 
   Future<void> uploadImage() async {
-    if (selectedimage == null) return;
+    if (croppedFile == null) return;
 
     isloading = true;
     notifyListeners();
 
-    String? url = await doctorservice.uploadImage(selectedimage!);
+    String? url = await doctorservice.uploadImage(path!);
 
     if (url != null) {
       imageUrl = url;
@@ -119,5 +122,36 @@ class DoctorController extends ChangeNotifier {
 
     isloading = false;
     notifyListeners();
+  }
+
+  Future<void> pickAndCropImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      croppedFile = await ImageCropper().cropImage(
+        sourcePath: image.path,
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            aspectRatioPresets: [
+              CropAspectRatioPreset.original,
+              CropAspectRatioPreset.square,
+              CropAspectRatioPresetCustom(),
+            ],
+          ),
+        ],
+      );
+
+      if (croppedFile != null) {
+        // Use the cropped file as needed
+        log('Cropped file path: ${croppedFile?.path}');
+      }
+      path = croppedFile?.path;
+      log("path is : $path");
+      notifyListeners();
+    }
   }
 }

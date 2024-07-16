@@ -8,6 +8,7 @@ class DoctorService {
   String doctor = "doctor";
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   Reference storage = FirebaseStorage.instance.ref();
+
   Future<List<DoctorModel>> getAllDoctors() async {
     final snapshot = await firestore.collection(doctor).get();
     return snapshot.docs

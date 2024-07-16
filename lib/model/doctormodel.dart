@@ -14,7 +14,7 @@ class DoctorModel {
       this.gender,
       this.name,
       this.phone,
-      this.imageUrl});
+      required this.imageUrl});
 
   factory DoctorModel.fromjson(json) {
     return DoctorModel(
